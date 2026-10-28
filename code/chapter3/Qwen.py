@@ -29,7 +29,9 @@ messages = [
 # 使用分词器的模板格式化输入
 text = tokenizer.apply_chat_template(
     messages,
+    # 不把输入文本立即转换为Token ID
     tokenize=False,
+    # 添加生成提示符，例如 "Assistant:"
     add_generation_prompt=True
 )
 
@@ -49,6 +51,7 @@ generated_ids = model.generate(
 # 将生成的 Token ID 截取掉输入部分
 # 这样我们只解码模型新生成的部分
 generated_ids = [
+    # 这里似乎没有必要使用 for 循环，因为我们只生成了一条输出
     output_ids[len(input_ids):] for input_ids, output_ids in zip(model_inputs.input_ids, generated_ids)
 ]
 
